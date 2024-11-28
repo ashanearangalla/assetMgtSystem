@@ -935,16 +935,103 @@ form {
 
 
 
+.dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 30px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100px;
+  background-color: #ffc107;
+  
+}
+
+.card-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.card-footer {
+  
+  background-color: #41b25c;
+  height: 20px;
+  text-align: center;
+  
+}
+
+.body1 {
+  display: grid;
+  margin-top: 30px;
+  grid-template-columns: 2fr 1fr;
+  
+  gap: 30px;
+}
+
+.table-heading-dashboard {
+  font-size: 18px;
+}
+
+.table-header-dashboard {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+ 
+}
+
+.recent-activity {
+  
+}
+
+.asset-type {
+  background-color: #41b25c;
+}
 
 
 
+.body2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100px;
+  gap: 30px;
+  margin-top: 30px;
+}
 
 
+.locations {
+  background-color: #dc3545;
+}
+
+.asset-categories {
+  background-color: #41b25c;
+}
 
 
+.footer {
+  padding: 30px;
+  background-color: #fff;
+}
 
 
-
+table.dataTable thead th {
+    white-space: nowrap;
+    background-color: #000000;
+    color: #fff;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+    margin: 0;
+}
+.pagination-container {
+    display: flex;
+    justify-content: end;
+    padding-top: 15px;
+   
+}
 
 
 

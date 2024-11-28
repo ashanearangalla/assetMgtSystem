@@ -3,7 +3,7 @@
 $host = 'localhost'; // Database host
 $username = 'root'; // Database username
 $password = ''; // Database password
-$database = 'snipeit_db'; // Database name
+$database = 'snipeit_database'; // Database name
 
 // Create a connection to the MySQL database
 $conn = new mysqli($host, $username, $password, $database);
