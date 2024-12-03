@@ -1,6 +1,4 @@
-<?php
-include('connection.php');
-?>
+
 
     <div class="sidebar">
         <div class="logo-details">
@@ -40,41 +38,49 @@ include('connection.php');
             </li>
             <li>
                 <a href="components.php">
-                    <i class='bx bx-folder'></i>
+                <i class="fa-solid fa-hard-drive"></i>
                     <span class="links_name">Components</span>
                 </a>
                 <span class="tooltip">Components</span>
             </li>
             <li>
                 <a href="consumables.php">
-                    <i class='bx bx-cart-alt'></i>
+                <i class='bx bxs-droplet'></i>
                     <span class="links_name">Consumable</span>
                 </a>
                 <span class="tooltip">Consumable</span>
             </li>
             <li>
-                <a href="#">
-                    <i class='bx bx-heart'></i>
+                <a href="manageUsers.php">
+                <i class='bx bxs-user'></i>
                     <span class="links_name">Saved</span>
                 </a>
-                <span class="tooltip">Saved</span>
+                <span class="tooltip">People</span>
             </li>
             <li>
-                <a href="#">
-                    <i class='bx bx-cog'></i>
-                    <span class="links_name">Setting</span>
+                <a href="maintenance.php">
+                <i class="fa-solid fa-wrench"></i>
+                    <span class="links_name">Maintenance</span>
                 </a>
-                <span class="tooltip">Setting</span>
+                <span class="tooltip">Maintenance</span>
+            </li>
+            <li>
+                <a href="audit.php">
+                <i class="fa-regular fa-clipboard"></i>
+                    <span class="links_name">Audit</span>
+                </a>
+                <span class="tooltip">Audit</span>
             </li>
             <li class="profile">
                 <div class="profile-details">
                     <!-- <img src="profile.jpg" alt="profileImg"> -->
                     <div class="name_job">
-                        <div class="name">Saman Perera</div>
-                        <div class="job">Web designer</div>
+                        <div class="name"><?php echo $_SESSION["user"]["fname"] . " " . $_SESSION["user"]["lname"]?></div>
+                        <div class="job"><?php echo $_SESSION["user"]["role"] ?></div>
                     </div>
                 </div>
-                <i class='bx bx-log-out' id="log_out"></i>
+                
+                
             </li>
         </ul>
     </div>
@@ -87,30 +93,8 @@ include('connection.php');
             <div class="middle-section">
                 <ul class="nav-list-horizontal">
 
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-laptop'></i>
-                        </a>
-                        <span class="tooltip">Order</span>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-window-alt'></i>
-                        </a>
-                        <span class="tooltip">License</span>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bxs-keyboard'></i>
-                        </a>
-                        <span class="tooltip">Accessories</span>
-                    </li>
-                    <li>
-                        <div class='search'>
-                            <input type="text" placeholder="Insert Asset Tag" />
-                            <i class='bx bx-search'></i>
-                        </div>
-                    </li>
+                    
+                   
                 </ul>
 
 
@@ -120,20 +104,59 @@ include('connection.php');
             <div class="settings">
                 <ul class="nav-list-horizontal">
 
+                    
                     <li>
-                        <a href="#">
-                            <i id="profilepic" class='bx bx-smile'></i>
-                            <span class="links_name">Saved</span>
+                        <a href="categories.php">
+                        <i class='bx bxs-category-alt'></i>
+
+                        </a>
+                        <span class="tooltip">Categories</span>
+
+                    </li>
+                    <li>
+                        <a href="manufacturers.php">
+                        <i class='bx bxs-factory'></i>
+                       
+
+                        </a>
+                        <span class="tooltip">Manufacturers</span>
+
+                    </li>
+                    <li>
+                        <a href="offices.php">
+                        <i class='bx bx-buildings'></i>
+
+                        </a>
+                        <span class="tooltip">Offices</span>
+
+                    </li>
+                    <li>
+                        <a href="suppliers.php">
+                        <i class='bx bxs-truck'></i>
+
+                        </a>
+                        <span class="tooltip">Suppliers</span>
+
+                    </li>
+                    <li>
+                    
+                        <a href="account.php">
+                        
+                        <span style="min-width: 90px;" class="links_name"><?php echo $_SESSION["user"]["fname"] . " " . $_SESSION["user"]["lname"]?></span>
+                        
                         </a>
 
                     </li>
                     <li>
-                        <a href="#">
-                            <i class='bx bx-cog'></i>
+                        <a href="logout.php">
+                        <i class="fa-solid fa-right-from-bracket"></i>
 
                         </a>
+                        <span class="tooltip">Logout</span>
 
                     </li>
+
+                    
 
                 </ul>
 

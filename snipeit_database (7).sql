@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2024 at 04:24 PM
+-- Generation Time: Dec 03, 2024 at 05:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,8 +41,8 @@ CREATE TABLE `accessory` (
 --
 
 INSERT INTO `accessory` (`accessoryID`, `modelNo`, `quantity`, `remaining`, `itemID`, `warrantyID`) VALUES
-(1, 'ACC123', 30, NULL, 5, 1),
-(4, 'BH67', 24, NULL, 52, 15);
+(1, 'ACC123', 30, 0, 5, 1),
+(4, 'BH67', 24, 23, 52, 15);
 
 -- --------------------------------------------------------
 
@@ -80,15 +80,35 @@ CREATE TABLE `assetassignment` (
   `assignmentDate` date NOT NULL,
   `returnDate` date DEFAULT NULL,
   `itemID` int(11) DEFAULT NULL,
-  `userID` int(11) DEFAULT NULL
+  `userID` int(11) DEFAULT NULL,
+  `expCheckinDate` date DEFAULT NULL,
+  `status` varchar(100) DEFAULT 'Active',
+  `officeID` int(11) DEFAULT NULL,
+  `checkinNotes` text DEFAULT NULL,
+  `checkoutNotes` text DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `assetassignment`
 --
 
-INSERT INTO `assetassignment` (`assignmentID`, `assignmentDate`, `returnDate`, `itemID`, `userID`) VALUES
-(1, '2024-01-20', '2024-03-20', 1, 1);
+INSERT INTO `assetassignment` (`assignmentID`, `assignmentDate`, `returnDate`, `itemID`, `userID`, `expCheckinDate`, `status`, `officeID`, `checkinNotes`, `checkoutNotes`, `quantity`) VALUES
+(6, '2024-11-28', NULL, 44, 2, '2024-12-26', 'Active', 2, NULL, 'No', NULL),
+(7, '2024-11-27', '2024-11-30', 1, NULL, '2024-11-30', 'Completed', 2, 'No', 'No', NULL),
+(8, '2024-11-26', '2024-11-30', 1, 2, '2024-11-30', 'Completed', 3, 'Piliyandala', 'Noo', NULL),
+(9, '2024-11-28', '2024-11-29', 1, 1, '2024-11-30', 'Completed', 2, 'No', 'No', NULL),
+(10, '2024-11-28', NULL, 3, 1, NULL, 'Completed', NULL, NULL, 'No', NULL),
+(11, '2024-11-23', NULL, 3, 1, NULL, 'Active', NULL, NULL, 'No', NULL),
+(12, '2024-11-30', NULL, 50, 2, NULL, 'Active', NULL, NULL, 'nn', NULL),
+(13, '2024-11-28', NULL, 1, 1, NULL, 'Completed', NULL, NULL, 'No', 30),
+(15, '2024-11-28', NULL, 52, 2, NULL, 'Active', NULL, NULL, 'No', 1),
+(17, '2024-11-29', NULL, 7, 2, NULL, 'Completed', NULL, NULL, 'No', 1),
+(18, '2024-11-29', NULL, 7, 1, NULL, 'Active', NULL, NULL, 'No', 1),
+(19, '2024-11-27', NULL, 6, 1, NULL, 'Completed', NULL, NULL, 'No', 32),
+(20, '2024-11-28', NULL, 6, 2, NULL, 'Active', NULL, NULL, 'No', 10),
+(21, '2024-12-20', '2024-12-13', 1, 2, '2025-01-02', 'Completed', 2, '', '', NULL),
+(22, '2024-12-06', NULL, 1, 2, '2024-12-04', 'Active', NULL, NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -129,14 +149,18 @@ CREATE TABLE `category` (
 INSERT INTO `category` (`categoryID`, `name`) VALUES
 (1, 'Laptops'),
 (2, 'Desktops'),
-(3, 'Printers'),
+(3, 'Printerss'),
 (4, 'Accessories'),
 (5, 'Software'),
 (6, 'Mouse'),
 (7, 'Keyboard'),
 (8, 'Prineter Paper'),
 (9, 'Ram'),
-(10, 'HDD');
+(10, 'HDD'),
+(11, 'TV'),
+(13, 'SDsew'),
+(14, 'gtvv'),
+(21, 'Asd');
 
 -- --------------------------------------------------------
 
@@ -159,8 +183,8 @@ CREATE TABLE `component` (
 --
 
 INSERT INTO `component` (`componentID`, `serial`, `modelNo`, `quantity`, `remaining`, `itemID`, `warrantyID`) VALUES
-(1, 'CSN123', 'ModelX', 50, NULL, 7, 1),
-(4, 'HG6732', 'HG67832', 20, NULL, 56, 16);
+(1, 'CSN123', 'ModelX', 40, 38, 7, 1),
+(4, 'HG6732', 'HG67832', 20, 20, 56, 16);
 
 -- --------------------------------------------------------
 
@@ -181,8 +205,8 @@ CREATE TABLE `consumable` (
 --
 
 INSERT INTO `consumable` (`consumableID`, `modelNo`, `quantity`, `remaining`, `itemID`) VALUES
-(1, 'CON123', 100, NULL, 6),
-(4, 'SH6789', 33, NULL, 59);
+(1, 'CON123', 68, 58, 6),
+(4, 'SH6789', 33, 33, 59);
 
 -- --------------------------------------------------------
 
@@ -231,19 +255,19 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`itemID`, `name`, `image`, `notes`, `categoryID`, `manufacturerID`, `orderID`, `statusID`, `officeID`) VALUES
-(1, 'Dell Inspiron 15', 'dellins.jpeg', '15-inch laptop', 1, 1, 1, 1, 1),
+(1, 'Dell Inspiron 15', 'dellins.jpeg', '15-inch laptop', 1, 1, 1, 5, 2),
 (3, 'Adobe Photoshop', 'ps.png', 'Image editing Software', 5, NULL, 3, 1, 1),
 (5, 'Acer Predator', 's-l400.jpg', 'Mouse', 6, 3, 5, 1, 1),
 (6, 'A4 75GSM Paper', 'images (2).jpg', 'Priner Paper', 8, 3, 6, 1, 4),
 (7, 'Crucial 4GB DDR3L-1600 SODIMM', 'ram.jpg', '4 GB Ram', 9, 4, 7, 1, 3),
-(44, 'DVGH56', 'dell-vostro.jpg', 'wcnwencew', 2, 4, 19, 2, 2),
+(44, 'DVGH56', 'dell-vostro.jpg', 'wcnwencew', 2, 4, 19, 5, 2),
 (49, 'Adobe Reader', 'download.jpg', '', 5, 5, NULL, 1, 4),
 (50, 'Windows 7', 'd302d7664552bb4bdad844c335c3ad25.jpg', 'Samitha', 5, 5, 20, 1, 2),
 (52, 'Logitech Prodigy', 'images (1).jpg', 'Blue', 7, 4, 21, 1, 2),
 (53, '', '40449-11779371.jpg', '256 HDD', NULL, NULL, NULL, 1, NULL),
 (54, 'HDD WD100', '40449-11779371.jpg', '256 HDD', NULL, NULL, NULL, 1, NULL),
 (56, 'HDD 256', '40449-11779371.jpg', '256 GB', 10, 2, 22, 1, 2),
-(59, 'Laserjet Paper (Ream)', 'L7621238.jpg', '101 Sheets', 8, 3, 23, 2, 2),
+(59, 'Laserjet Paper (Ream)', 'L7621238.jpg', '101 Sheets', 8, 3, 23, 1, 2),
 (60, 'HP LaserJet 1020', '20231106104601HP-LASERJET-1008A-PRINTER-1200x900.jpg', 'Printer', 3, 2, 24, 1, 3);
 
 -- --------------------------------------------------------
@@ -268,9 +292,9 @@ CREATE TABLE `license` (
 --
 
 INSERT INTO `license` (`licenseID`, `productKey`, `seats`, `available`, `licensedToName`, `licensedToEmail`, `expDate`, `itemID`) VALUES
-(1, 'ABCD-1234-EFGH-5678', 5, NULL, 'Company A', 'admin@companya.com', '2025-01-01', 3),
-(4, 'ABCD-1234-EFGH-5676', 4, NULL, 'Chamath', 'chamath@gmail.com', '2025-12-20', 49),
-(5, '7777', 7, NULL, 'Samitha', 'samitha@gmail.com', '0000-00-00', 50);
+(1, 'ABCD-1234-EFGH-5678', 5, 4, 'Company A', 'admin@companya.com', '2025-01-01', 3),
+(4, 'ABCD-1234-EFGH-5676', 4, 4, 'Chamath', 'chamath@gmail.com', '2025-12-20', 49),
+(5, '7777', 7, 6, 'Samitha', 'samitha@gmail.com', '0000-00-00', 50);
 
 -- --------------------------------------------------------
 
@@ -293,7 +317,8 @@ CREATE TABLE `maintenance` (
 --
 
 INSERT INTO `maintenance` (`maintenanceID`, `startDate`, `completionDate`, `type`, `description`, `cost`, `itemID`) VALUES
-(1, '2024-03-01', '2024-03-05', 'Repair', 'Replaced faulty hardware', 150.00, 1);
+(1, '2024-03-01', '2024-03-05', 'Repair', 'Replaced faulty hardware', 150.00, 1),
+(4, '2024-12-05', '2024-12-10', 'nnix', 'niaxs', 1000.00, 60);
 
 -- --------------------------------------------------------
 
@@ -318,7 +343,10 @@ INSERT INTO `manufacturer` (`manufacturerID`, `name`, `url`, `supportEmail`, `su
 (2, 'HP', 'https://www.hp.com', 'support@hp.com', '+18002255435'),
 (3, 'Acer', 'https://www.acer.com', 'support@acer.com', '+18005551234'),
 (4, 'Lenovo', 'https://www.lenovo.com', 'support@lenovo.com', '+18002255435'),
-(5, 'Adobe', 'www.adobe.com', NULL, '0776522211');
+(5, 'Adobe', 'www.adobe.com', NULL, '0776522211'),
+(7, 'AMG', '', '', ''),
+(8, 'ODelA', 'sas', 'aa@gmail.com', '1212'),
+(9, 'dwe', 'ewe.com', 'wc@gmail.com', '077652121');
 
 -- --------------------------------------------------------
 
@@ -342,7 +370,8 @@ INSERT INTO `office` (`officeID`, `name`, `address`, `email`, `phone`) VALUES
 (1, 'Head Office Pettah', '123 Main St, Colombo', 'head@office.com', '+94112345678'),
 (2, 'Bambalapitiya Branch', '456 Elm St, Kandy', 'branch@office.com', '+94812345679'),
 (3, 'Piliyandala Branch', '123 Main St, Colombo', 'head@office.com', '+94112345678'),
-(4, 'Peliyagoda Branch', '456 Elm St, Kandy', 'branch@office.com', '+94812345679');
+(4, 'Peliyagoda Branch', '456 Elm St, Kandy', 'branch@office.com', '+94812345679'),
+(5, 'Wattala', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -394,7 +423,7 @@ INSERT INTO `order` (`orderID`, `purchaseDate`, `purchaseCost`, `supplierID`) VA
 
 CREATE TABLE `status` (
   `statusID` int(11) NOT NULL,
-  `type` enum('deployable','pending') NOT NULL
+  `type` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -402,8 +431,11 @@ CREATE TABLE `status` (
 --
 
 INSERT INTO `status` (`statusID`, `type`) VALUES
-(1, 'deployable'),
-(2, 'pending');
+(1, 'Ready to Deploy'),
+(2, 'Pending'),
+(5, 'Deployed'),
+(6, 'Active'),
+(7, 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -428,7 +460,8 @@ INSERT INTO `supplier` (`supplierID`, `name`, `address`, `contactName`, `email`,
 (1, 'Tech Supplies Co.', '789 Pine St, Galle', 'Alice Brown', 'alice@techsupplies.com', '+94712345678'),
 (2, 'Office Equipments Ltd.', '321 Maple St, Jaffna', 'Bob Green', 'bob@officeeq.com', '+94798765432'),
 (3, 'Perera Supplies Co.', '789 Pine St, Galle', 'Alice Brown', 'alice@techsupplies.com', '+94712345678'),
-(4, 'Pettah Accessories Ltd.', '321 Maple St, Jaffna', 'Bob Green', 'bob@officeeq.com', '+94798765432');
+(4, 'Pettah Accessories Ltd.', '321 Maple St, Jaffna', 'Bob Green', 'bob@officeeq.com', '+94798765432'),
+(5, 'Sena Brothers PVT Ltd', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -446,18 +479,20 @@ CREATE TABLE `user` (
   `loginEnabled` tinyint(1) DEFAULT 1,
   `image` varchar(255) DEFAULT NULL,
   `departmentID` int(11) DEFAULT NULL,
-  `statusID` int(11) DEFAULT NULL
+  `statusID` int(11) DEFAULT NULL,
+  `locationID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userID`, `fname`, `lname`, `role`, `email`, `password`, `loginEnabled`, `image`, `departmentID`, `statusID`) VALUES
-(1, 'John', 'Doe', 'Admin', 'john.doe@office.com', 'hashed_password', 1, 'john_doe.png', 1, 1),
-(2, 'Jane', 'Smith', 'Employee', 'jane.smith@office.com', 'hashed_password', 1, 'jane_smith.png', 2, 2),
-(3, 'John', 'Doe', 'Admin', 'john.doe@office.com', 'hashed_password', 1, 'john_doe.png', 1, 1),
-(4, 'Jane', 'Smith', 'Employee', 'jane.smith@office.com', 'hashed_password', 1, 'jane_smith.png', 2, 2);
+INSERT INTO `user` (`userID`, `fname`, `lname`, `role`, `email`, `password`, `loginEnabled`, `image`, `departmentID`, `statusID`, `locationID`) VALUES
+(1, 'John', 'Doe', 'Admin', 'john.doe@office.com', '$2y$10$cAHAuazZe.fq8UyxpYQLreF4ZHsXQL6GbPm340edaTQrcabKrC0CK', 1, 'john_doe.png', 1, 6, 1),
+(2, 'Jane', 'Smitha', 'Employee', 'abc@gmail.com', '$2y$10$yhTAjhZiAYS0TuAMXJu6y.3tOyDush2TitJ/D08Iacxgo..JWkI5K', 1, 'jane_smith.png', 2, 6, 2),
+(5, 'cew', 'cw', 'Admin', 'cwe@gmail.com', '$2y$10$10hgbb/3hNeIPpVzDcj4/eHLcOhM94PPCb/hQXfh8bIdV.XQoiNHa', 0, '', 2, 6, 2),
+(6, 'dxwe', 'wcwe', 'Employee', 's@gmail.com', '$2y$10$a29L1w/uu7ZGSDjPv0AASuij3KkIr0PqW8nfanMMgOIoRxsy0cInm', 0, '', 1, 7, 1),
+(10, 'snipe', '13', 'Admin', 'snipe@gmail.com', '$2y$10$p0nkZzgjyKdOS/1Id3nB7u2wgf.V9jZQQbtxmfPPZoSfXs5HqsOTu', 1, '', 2, 5, 3);
 
 -- --------------------------------------------------------
 
@@ -522,7 +557,9 @@ ALTER TABLE `asset`
 ALTER TABLE `assetassignment`
   ADD PRIMARY KEY (`assignmentID`),
   ADD KEY `itemID` (`itemID`),
-  ADD KEY `userID` (`userID`);
+  ADD KEY `userID` (`userID`),
+  ADD KEY `assetassignment_ibfk_3````` (`officeID`),
+  ADD KEY `assetassignment_ibfk_4` (`status`);
 
 --
 -- Indexes for table `audit`
@@ -621,7 +658,8 @@ ALTER TABLE `supplier`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`userID`),
   ADD KEY `departmentID` (`departmentID`),
-  ADD KEY `statusID` (`statusID`);
+  ADD KEY `statusID` (`statusID`),
+  ADD KEY `user_ibfk_3` (`locationID`);
 
 --
 -- Indexes for table `warranty`
@@ -637,7 +675,7 @@ ALTER TABLE `warranty`
 -- AUTO_INCREMENT for table `accessory`
 --
 ALTER TABLE `accessory`
-  MODIFY `accessoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `accessoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `asset`
@@ -649,31 +687,31 @@ ALTER TABLE `asset`
 -- AUTO_INCREMENT for table `assetassignment`
 --
 ALTER TABLE `assetassignment`
-  MODIFY `assignmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `assignmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `audit`
 --
 ALTER TABLE `audit`
-  MODIFY `auditID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `auditID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `categoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `categoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `component`
 --
 ALTER TABLE `component`
-  MODIFY `componentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `componentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `consumable`
 --
 ALTER TABLE `consumable`
-  MODIFY `consumableID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `consumableID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -685,31 +723,31 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `itemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `itemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `license`
 --
 ALTER TABLE `license`
-  MODIFY `licenseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `licenseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `maintenance`
 --
 ALTER TABLE `maintenance`
-  MODIFY `maintenanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `maintenanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `manufacturer`
 --
 ALTER TABLE `manufacturer`
-  MODIFY `manufacturerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `manufacturerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `office`
 --
 ALTER TABLE `office`
-  MODIFY `officeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `officeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `order`
@@ -721,19 +759,19 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT for table `status`
 --
 ALTER TABLE `status`
-  MODIFY `statusID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `statusID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplierID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `supplierID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `warranty`
@@ -764,7 +802,8 @@ ALTER TABLE `asset`
 --
 ALTER TABLE `assetassignment`
   ADD CONSTRAINT `assetassignment_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `item` (`itemID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `assetassignment_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `assetassignment_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `assetassignment_ibfk_3``` FOREIGN KEY (`officeID`) REFERENCES `office` (`officeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `audit`
@@ -824,7 +863,8 @@ ALTER TABLE `order`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`departmentID`) REFERENCES `department` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`statusID`) REFERENCES `status` (`statusID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`statusID`) REFERENCES `status` (`statusID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`locationID`) REFERENCES `office` (`officeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

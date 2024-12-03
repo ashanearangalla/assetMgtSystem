@@ -1,5 +1,6 @@
 <?php
 // Database connection
+
 include('connection.php');
 
 // Variables
@@ -15,7 +16,7 @@ $statuses = $conn->query("SELECT statusID, type FROM Status");
 
 // Initialize variables
 $name = $productKey = $seats = $licensedToName = $licensedToEmail = $expDate =
-    $purchaseDate = $purchaseCost = $supplierID = $image = $notes = $categoryID = $statusID = $manufacturerID = $officeID = "";
+    $purchaseDate = $purchaseCost = $supplierID = $image = $notes = $categoryID = $available = $statusID = $manufacturerID = $officeID = "";
 
 // Edit mode
 if ($isEditMode) {
@@ -33,6 +34,7 @@ o.officeID AS officeID,
 o.name AS officeName, 
 l.productKey, 
 l.seats, 
+l.available, 
 l.licensedToName, 
 l.licensedToEmail, 
 l.expDate, 
@@ -71,7 +73,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
 <head>
     <meta charset="UTF-8">
     <title> Assets</title>
-    <link rel="stylesheet" href="stylesheetassetnew.css">
+    <link rel="stylesheet" href="stylesheetlast.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -97,7 +99,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
 
                     <div class="form-element">
                         <label for="licenseName">License Name:</label>
-                        <input type="text" id="licenseName" name="licenseName" placeholder="License Name" value="<?php echo htmlspecialchars($name); ?>" >
+                        <input type="text" id="licenseName" name="licenseName" placeholder="License Name" value="<?php echo htmlspecialchars($name); ?>">
                     </div>
 
                     <div class="form-element">
@@ -108,6 +110,10 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                     <div class="form-element">
                         <label for="seats">Seats:</label>
                         <input type="number" id="seats" name="seats" placeholder="Number of Seats" value="<?php echo htmlspecialchars($seats); ?>">
+                    </div>
+                    <div class="form-element">
+                        <label for="available">Available:</label>
+                        <input type="number" id="available" name="available" placeholder="Available Seats" value="<?php echo htmlspecialchars($available); ?>">
                     </div>
 
                     <div class="form-element">
@@ -138,13 +144,14 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                     <div class="form-element">
                         <label for="category">Category:</label>
                         <select id="category" name="category">
-                        <option value="" selected hidden>Select Category</option>
+                            <option value="" selected hidden>Select Category</option>
                             <?php while ($category = $categories->fetch_assoc()) { ?>
                                 <option value="<?php echo $category['categoryID']; ?>" <?php echo $categoryID == $category['categoryID'] ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($category['name']); ?>
                                 </option>
                             <?php } ?>
                         </select>
+                        <button id="add-category-btn">Add</button>
                     </div>
 
                     <div class="form-element">
@@ -157,12 +164,13 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                                 </option>
                             <?php } ?>
                         </select>
+                        <button id="add-manufacturer-btn">Add</button>
                     </div>
 
                     <div class="form-element">
                         <label for="status">Status:</label>
                         <select id="status" name="status">
-                        <option value="" selected hidden>Select Status</option>
+                            <option value="" selected hidden>Select Status</option>
                             <?php while ($status = $statuses->fetch_assoc()) { ?>
                                 <option value="<?php echo $status['statusID']; ?>" <?php echo $statusID == $status['statusID'] ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($status['type']); ?>
@@ -174,13 +182,14 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                     <div class="form-element">
                         <label for="office">Office:</label>
                         <select id="office" name="office">
-                        <option value="" selected hidden>Select Office</option>
+                            <option value="" selected hidden>Select Office</option>
                             <?php while ($office = $offices->fetch_assoc()) { ?>
                                 <option value="<?php echo $office['officeID']; ?>" <?php echo $officeID == $office['officeID'] ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($office['name']); ?>
                                 </option>
                             <?php } ?>
                         </select>
+                        <button id="add-office-btn">Add</button>
                     </div>
 
                     <!-- Order Details Section -->
@@ -198,13 +207,14 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                             <div class="form-element">
                                 <label for="supplier">Supplier:</label>
                                 <select id="supplier" name="supplier">
-                                <option value="" selected hidden>Select Supplier</option>
+                                    <option value="" selected hidden>Select Supplier</option>
                                     <?php while ($supplier = $suppliers->fetch_assoc()) { ?>
                                         <option value="<?php echo $supplier['supplierID']; ?>" <?php echo $supplierID == $supplier['supplierID'] ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($supplier['name']); ?>
                                         </option>
                                     <?php } ?>
                                 </select>
+                                <button id="add-supplier-btn">Add</button>
                             </div>
                         </div>
                     </div>
@@ -218,11 +228,120 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                         </button>
                     </div>
 
-                    
+
                 </form>
             </div>
         </div>
     </main>
+    <div class="overlay" id="popup-overlay"> </div>
+    <div id="popup-box-category" class="popup-box">
+        <div class="popup-header">
+            <button class="close-btn" id="close-popup-category">&times;</button>
+            <h2>Add Category</h2>
+        </div>
+        <form action="db_context.php" method="POST" enctype="multipart/form-data">
+            <div class="popup-element">
+                <label for="categoryName">Category Name:</label>
+                <input type="text" id="categoryName" placeholder="Category Name" name="categoryName" required>
+            </div>
+            <div class="popup-footer">
+
+                <button class="action-btn" name="addCategoryButton" id="confirm-add-category">Confirm</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="popup-box-manufacturer" class="popup-box">
+        <div class="popup-header">
+            <button class="close-btn" id="close-popup-manufacturer">&times;</button>
+            <h2>Add Manufacturer</h2>
+        </div>
+        <form action="db_context.php" method="POST" enctype="multipart/form-data">
+            <div class="popup-element">
+                <label for="manufacturerName">Manufacturer Name:</label>
+                <input type="text" id="manufacturerName" placeholder="Manufacturer Name" name="manufacturerName" required>
+            </div>
+            <div class="popup-element">
+                <label for="url">URL:</label>
+                <input type="text" id="url" placeholder="URL" name="url">
+            </div>
+            <div class="popup-element">
+                <label for="email">Support Email:</label>
+                <input type="text" id="email" placeholder="Email" name="email">
+            </div>
+            <div class="popup-element">
+                <label for="phone">Support Phone:</label>
+                <input type="text" id="phone" placeholder="Phone" name="phone">
+            </div>
+            <div class="popup-footer">
+
+                <button class="action-btn" name="addManufacturerButton" id="confirm-add-manufacturer">Confirm</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="popup-box-office" class="popup-box">
+        <div class="popup-header">
+            <button class="close-btn" id="close-popup-office">&times;</button>
+            <h2>Add Office</h2>
+        </div>
+        <form action="db_context.php" method="POST" enctype="multipart/form-data">
+            <div class="popup-element">
+                <label for="officeName">Office Name:</label>
+                <input type="text" id="officeName" placeholder="Office Name" name="officeName" required>
+            </div>
+            <div class="popup-element">
+                <label for="address">Address:</label>
+                <input type="text" id="address" placeholder="Address" name="address">
+            </div>
+            <div class="popup-element">
+                <label for="email">Email:</label>
+                <input type="text" id="email" placeholder="Email" name="email">
+            </div>
+            <div class="popup-element">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" placeholder="Phone" name="phone">
+            </div>
+            <div class="popup-footer">
+
+                <button class="action-btn" name="addOfficeButton" id="confirm-add-office">Confirm</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="popup-box-supplier" class="popup-box">
+        <div class="popup-header">
+            <button class="close-btn" id="close-popup-supplier">&times;</button>
+            <h2>Add Supplier</h2>
+        </div>
+        <form action="db_context.php" method="POST" enctype="multipart/form-data">
+            <div class="popup-element">
+                <label for="supplierName">Supplier Name:</label>
+                <input type="text" id="supplierName" placeholder="Supplier Name" name="supplierName" required>
+            </div>
+            <div class="popup-element">
+                <label for="address">Address:</label>
+                <input type="text" id="address" placeholder="Address" name="address">
+            </div>
+            <div class="popup-element">
+                <label for="contactName">Contact Name:</label>
+                <input type="text" id="contactName" placeholder="Contact Name" name="contactName">
+            </div>
+            <div class="popup-element">
+                <label for="email">Email:</label>
+                <input type="text" id="email" placeholder="Email" name="email">
+            </div>
+            <div class="popup-element">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" placeholder="Phone" name="phone">
+            </div>
+            <div class="popup-footer">
+
+                <button class="action-btn" name="addSupplierButton" id="confirm-add-supplier">Confirm</button>
+            </div>
+        </form>
+    </div>
 
     <script>
         // Toggle section visibility
@@ -236,6 +355,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
             const status = document.getElementById("status").value.trim();
             const category = document.getElementById("category").value.trim();
             const seats = document.getElementById("seats").value.trim();
+            const available = document.getElementById("available").value.trim();
             const errorBox = document.getElementById("error-box");
 
             errorBox.innerHTML = "";
@@ -244,17 +364,37 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                 errorBox.innerHTML = "License Name is required.";
                 return false;
             }
+
             if (!seats) {
-                errorBox.innerHTML = "Sears are required.";
+                errorBox.innerHTML = "Seats are required.";
                 return false;
             }
+
+            if (isNaN(seats) || seats <= 0) {
+                errorBox.innerHTML = "Seats must be a positive number.";
+                return false;
+            }
+
+            if (!available) {
+                errorBox.innerHTML = "Available Seats are required.";
+                return false;
+            }
+
+            if (isNaN(available) || available < 0) {
+                errorBox.innerHTML = "Available Seats must be a non-negative number.";
+                return false;
+            }
+
+            if (parseInt(available) > parseInt(seats)) {
+                errorBox.innerHTML = "Available Seats cannot be greater than Total Seats.";
+                return false;
+            }
+
             if (!category) {
-                errorBox.innerHTML = "Category Name is required.";
+                errorBox.innerHTML = "Category is required.";
                 return false;
             }
 
-
-            
             if (!status) {
                 errorBox.innerHTML = "Status is required.";
                 return false;
@@ -263,3 +403,5 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
             return true;
         }
     </script>
+    <script src="expand.js"></script>
+    <script src="popupLast.js"></script>

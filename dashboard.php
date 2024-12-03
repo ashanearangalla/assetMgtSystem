@@ -1,3 +1,51 @@
+<?php
+// Database connection
+include('connection.php');
+
+// Query to count the items by status
+$query = "SELECT s.type, COUNT(i.itemID) as count
+FROM item i
+JOIN status s ON i.statusID = s.statusID
+GROUP BY s.type;
+";
+$result = mysqli_query($conn, $query);
+
+$statuses = [];
+$counts = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $statuses[] = $row['type']; // Store statuses (labels)
+    $counts[] = $row['count'];    // Store the count of each status
+}
+
+// Convert PHP arrays into JSON format for Chart.js
+$statuses_json = json_encode($statuses);
+$counts_json = json_encode($counts);
+
+
+
+// Fetch counts from each table
+$assets_count = $conn->query("SELECT COUNT(*) as count FROM asset")->fetch_assoc()['count'];
+$licenses_count = $conn->query("SELECT COUNT(*) as count FROM license")->fetch_assoc()['count'];
+$accessories_count = $conn->query("SELECT COUNT(*) as count FROM accessory")->fetch_assoc()['count'];
+$consumables_count = $conn->query("SELECT COUNT(*) as count FROM consumable")->fetch_assoc()['count'];
+$components_count = $conn->query("SELECT COUNT(*) as count FROM component")->fetch_assoc()['count'];
+
+
+//asset assignment
+$query = "SELECT o.name, i.itemID, aa.assignmentID, u.fname AS assignedTo, aa.assignmentDate
+          FROM assetassignment aa
+          LEFT JOIN item i ON aa.itemID = i.itemID
+          LEFT JOIN office o ON i.officeID = o.officeID
+          LEFT JOIN user u ON aa.userID = u.userID
+          ORDER BY o.name";
+
+$result = $conn->query($query);
+
+?>
+
+
+
 <!DOCTYPE html>
 <!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
 <html lang="en" dir="ltr">
@@ -5,155 +53,25 @@
 <head>
     <meta charset="UTF-8">
     <title> Assets</title>
-    <link rel="stylesheet" href="mystyle.css">
+    <link rel="stylesheet" href="mystylenew.css">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
-    <div class="sidebar">
-        <div class="logo-details">
+<?php
 
-            <div class="logo_name"></div>
-            <i class='bx bx-menu' id="btn"></i>
-        </div>
-        <ul class="nav-list-vertical">
+include('sidemenu.php');
+?>
 
-            <li>
-                <a href="#">
-                    <i class='bx bx-grid-alt'></i>
-                    <span class="links_name">Dashboard</span>
-                </a>
-                <span class="tooltip">Dashboard</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-laptop'></i>
-                    <span class="links_name">Assets</span>
-                </a>
-                <span class="tooltip">Assets</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-window-alt'></i>
-                    <span class="links_name">Licenses</span>
-                </a>
-                <span class="tooltip">Licenses</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bxs-keyboard'></i>
-                    <span class="links_name">Accessories</span>
-                </a>
-                <span class="tooltip">Accessories</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-folder'></i>
-                    <span class="links_name">File Manager</span>
-                </a>
-                <span class="tooltip">Files</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-cart-alt'></i>
-                    <span class="links_name">Order</span>
-                </a>
-                <span class="tooltip">Order</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-heart'></i>
-                    <span class="links_name">Saved</span>
-                </a>
-                <span class="tooltip">Saved</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-cog'></i>
-                    <span class="links_name">Setting</span>
-                </a>
-                <span class="tooltip">Setting</span>
-            </li>
-            <li class="profile">
-                <div class="profile-details">
-                    <img src="profile.jpg" alt="profileImg">
-                    <div class="name_job">
-                        <div class="name">Saman Perera</div>
-                        <div class="job">Web designer</div>
-                    </div>
-                </div>
-                <i class='bx bx-log-out' id="log_out"></i>
-            </li>
-        </ul>
-    </div>
+    
     <section class="home-section">
 
-        <div class="header-bar">
-            <div class="logo">
-                <h1>Snipe IT</h1>
-            </div>
-            <div class="middle-section">
-                <ul class="nav-list-horizontal">
-
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-laptop'></i>
-                        </a>
-                        <span class="tooltip">Order</span>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-window-alt'></i>
-                        </a>
-                        <span class="tooltip">License</span>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bxs-keyboard'></i>
-                        </a>
-                        <span class="tooltip">Accessories</span>
-                    </li>
-                    <li>
-                        <div class='search'>
-                            <input type="text" placeholder="Insert Asset Tag" />
-                            <i class='bx bx-search'></i>
-                        </div>
-                    </li>
-                </ul>
-
-
-
-
-            </div>
-            <div class="settings">
-                <ul class="nav-list-horizontal">
-
-                    <li>
-                        <a href="#">
-                            <i id="profilepic" class='bx bx-smile'></i>
-                            <span class="links_name">Saved</span>
-                        </a>
-
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-cog'></i>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-
-
-            </div>
-        </div>
-
-
+    
 
         <main class="main-content">
             <div class="main-header">
@@ -162,49 +80,107 @@
             </div>
 
             <div class="dashboard-summary">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <h1>1</h1>
-                            <h3>Assets</h3>
-                        </div>
-                        <div>
-                            <a href="#">
-                                <i class='bx bx-laptop'></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-footer">View All</div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <h1>1</h1>
-                            <h3>Assets</h3>
-                        </div>
-                        <div>
-                            <a href="#">
-                                <i class='bx bx-laptop'></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-footer">View All</div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <h1>1</h1>
-                            <h3>Assets</h3>
-                        </div>
-                        <div>
-                            <a href="#">
-                                <i class='bx bx-laptop'></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-footer">View All</div>
-                </div>
+    <!-- Assets Card -->
+    <div class="card" style="background-color: #4CAF50;">  <!-- Green for Assets -->
+        <div class="card-body">
+            <div>
+                <h1><?php echo $assets_count; ?></h1>  <!-- Display the asset count -->
+                <h3>Assets</h3>
             </div>
+            <div>
+                <a href="assets.php">
+                    <i class='bx bx-laptop'></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="assets.php" style="color: white; text-decoration: none;">
+                View All <i class='bx bx-right-arrow-alt'></i>  <!-- Arrow icon -->
+            </a>
+        </div>
+    </div>
+    
+    <!-- Licenses Card -->
+    <div class="card" style="background-color: #FF5722;">  <!-- Orange for Licenses -->
+        <div class="card-body">
+            <div>
+                <h1><?php echo $licenses_count; ?></h1>  <!-- Display the licenses count -->
+                <h3>Licenses</h3>
+            </div>
+            <div>
+                <a href="licenses.php">
+                    <i class='bx bx-window-alt'></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="licenses.php" style="color: white; text-decoration: none;">
+                View All <i class='bx bx-right-arrow-alt'></i>  <!-- Arrow icon -->
+            </a>
+        </div>
+    </div>
+    
+    <!-- Accessories Card -->
+    <div class="card" style="background-color: #2196F3;">  <!-- Blue for Accessories -->
+        <div class="card-body">
+            <div>
+                <h1><?php echo $accessories_count; ?></h1>  <!-- Display the accessories count -->
+                <h3>Accessories</h3>
+            </div>
+            <div>
+                <a href="accessories.php">
+                    <i class='bx bxs-keyboard'></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="accessories.php" style="color: white; text-decoration: none;">
+                View All <i class='bx bx-right-arrow-alt'></i>  <!-- Arrow icon -->
+            </a>
+        </div>
+    </div>
+
+    <!-- Consumables Card -->
+    <div class="card" style="background-color: #9C27B0;">  <!-- Purple for Consumables -->
+        <div class="card-body">
+            <div>
+                <h1><?php echo $consumables_count; ?></h1>  <!-- Display the consumables count -->
+                <h3>Consumables</h3>
+            </div>
+            <div>
+                <a href="consumables.php">
+                    <i class='bx bx-cart-alt'></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="consumables.php" style="color: white; text-decoration: none;">
+                View All <i class='bx bx-right-arrow-alt'></i>  <!-- Arrow icon -->
+            </a>
+        </div>
+    </div>
+
+    <!-- Components Card -->
+    <div class="card" style="background-color: #FFC107;">  <!-- Yellow for Components -->
+        <div class="card-body">
+            <div>
+                <h1><?php echo $components_count; ?></h1>  <!-- Display the components count -->
+                <h3>Components</h3>
+            </div>
+            <div>
+                <a href="components.php">
+                    <i class='bx bx-folder'></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="components.php" style="color: white; text-decoration: none;">
+                View All <i class='bx bx-right-arrow-alt'></i>  <!-- Arrow icon -->
+            </a>
+        </div>
+    </div>
+</div>
+
             <div class="body1">
                 <div class="recent-activity">
                     <div class="main-header">
@@ -270,16 +246,11 @@
                 </div>
                 <div class="asset-type">
                     <h2>Asset by Status Type</h2>
+                    <canvas id="statusPieChart" width="300" height="300"></canvas>
+
                 </div>
             </div>
-            <div class="body2">
-                <div class="locations">
-                    <h2>Locations</h2>
-                </div>
-                <div class="asset-categories">
-                    <h2>Asset Categories</h2>
-                </div>
-            </div>
+            
 
         </main>
 
@@ -310,6 +281,53 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    // Retrieve the data passed from PHP
+    const statuses = <?php echo $statuses_json; ?>;  // Labels
+    const counts = <?php echo $counts_json; ?>;      // Data
+
+    // Create the chart
+    const ctx = document.getElementById('statusPieChart').getContext('2d');
+    const statusPieChart = new Chart(ctx, {
+        type: 'pie', // Specifies the type of chart
+        data: {
+            labels: statuses, // Labels (statuses)
+            datasets: [{
+                label: 'Item Status',
+                data: counts, // Data (counts of each status)
+                backgroundColor: [
+                    'rgba(0, 0, 139, 0.6)', // Dark blue
+                    'rgba(255, 0, 0, 0.6)', // Red
+                    'rgba(0, 0, 139, 0.6)', // Dark blue (repeated)
+                    'rgba(255, 0, 0, 0.6)'  // Red (repeated)
+                ],
+                borderColor: [
+                    'rgba(0, 0, 139, 1)', // Dark blue
+                    'rgba(255, 0, 0, 1)', // Red
+                    'rgba(0, 0, 139, 1)', // Dark blue (repeated)
+                    'rgba(255, 0, 0, 1)'  // Red (repeated)
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true, // Ensures the chart scales with window size
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+</script>
+
+
+
 </body>
 
 </html>

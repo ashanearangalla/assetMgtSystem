@@ -14,6 +14,7 @@ st.type AS `type`,
 o.name AS officeName, 
 l.productKey, 
 l.seats, 
+l.available,
 l.licensedToName, 
 l.licensedToEmail, 
 l.expDate, 
@@ -40,7 +41,7 @@ $result = $conn->query($sql);
     <title>License List</title>
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-    <link rel="stylesheet" href="stylesheetassetnew.css">
+    <link rel="stylesheet" href="stylesheetlast.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
@@ -56,7 +57,10 @@ $result = $conn->query($sql);
     <main class="main-content">
         <div class="main-header">
             <h1>Licenses List</h1>
-            <a href="addLicense.php"><button class="primary-btn">Create New</button></a>
+            <?php if ($_SESSION["user"]["role"] !== 'Employee') : ?>
+                <a href="addLicense.php"><button class="primary-btn">Create New</button></a>
+            <?php endif; ?>
+            
         </div>
         <!-- Table Container -->
         <div class="table-container">
@@ -74,13 +78,18 @@ $result = $conn->query($sql);
                         <th>Office</th>
                         <th>Product Key</th>
                         <th>Seats</th>
+                        <th>Available</th>
                         <th>Licensed To (Name)</th>
                         <th>Licensed To (Email)</th>
                         <th>Expiry Date</th>
                         <th>Purchase Date</th>
                         <th>Purchase Cost</th>
                         <th>Supplier</th>
-                        <th>Action</th>
+                        <th>In/Out</th>
+
+                        <?php if ($_SESSION["user"]["role"] !== 'Employee') : ?>
+                            <th>Action</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,12 +109,27 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["officeName"] . "</td>";
                             echo "<td>" . $row["productKey"] . "</td>";
                             echo "<td>" . $row["seats"] . "</td>";
+                            echo "<td>" . $row["available"] . "</td>";
                             echo "<td>" . $row["licensedToName"] . "</td>";
                             echo "<td>" . $row["licensedToEmail"] . "</td>";
                             echo "<td>" . $row["expDate"] . "</td>";
                             echo "<td>" . $row["purchaseDate"] . "</td>";
                             echo "<td>" . $row["purchaseCost"] . "</td>";
                             echo "<td>" . $row["supplierName"] . "</td>";
+                            echo "<td>";
+                            if ($row['type'] === 'Deployed') {
+                                echo "<a href='checkinAsset.php?itemID=" . $row['itemID'] . "' class='btn btn-success'>Checkin</a>";
+                            } elseif ($row['type'] === 'Ready to Deploy') {
+                                if ($row['available'] > 0) {
+                                    echo "<a href='checkoutLicense.php?licenseID=" . $row['licenseID'] . "' class='btn btn-primary'>Checkout</a>";
+                                } else {
+                                    echo "<button class='btn btn-primary' disabled>Checkout</button>";
+                                }
+                            } else {
+                                echo "N/A"; // For other statuses
+                            }
+                            echo "</td>";
+                            if ($_SESSION["user"]["role"] !== 'Employee') :
                             echo "<td>
                                 <a href='addLicense.php?licenseID=" . $row['licenseID'] . "' class='btn btn-primary'>Update</a>
                                 <form action='db_context.php' method='post' style='display:inline-block;'>
@@ -116,6 +140,7 @@ $result = $conn->query($sql);
                               Delete</button>
                             </form>
                               </td>";
+                            endif;
                             echo "</tr>";
                         }
                     } else {
@@ -125,7 +150,7 @@ $result = $conn->query($sql);
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>#</th>
+                    <th>#</th>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Image</th>
@@ -136,13 +161,18 @@ $result = $conn->query($sql);
                         <th>Office</th>
                         <th>Product Key</th>
                         <th>Seats</th>
+                        <th>Available</th>
                         <th>Licensed To (Name)</th>
                         <th>Licensed To (Email)</th>
                         <th>Expiry Date</th>
                         <th>Purchase Date</th>
                         <th>Purchase Cost</th>
                         <th>Supplier</th>
-                        <th>Action</th>
+                        <th>In/Out</th>
+
+                        <?php if ($_SESSION["user"]["role"] !== 'Employee') : ?>
+                            <th>Action</th>
+                        <?php endif; ?>
                     </tr>
                 </tfoot>
             </table>

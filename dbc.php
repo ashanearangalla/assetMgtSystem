@@ -1,13 +1,5 @@
 <?php
 
-// Start the session
-session_start();
-
-if (!isset($_SESSION["user"])) {
-    // Redirect to login.php if not logged in
-    header('Location: login.php');
-   
-}
 // Database connection configuration
 $host = 'localhost'; // Database host
 $username = 'root'; // Database username
@@ -22,6 +14,4 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Debug message (optional)
-// echo "Connected successfully!";
 ?>

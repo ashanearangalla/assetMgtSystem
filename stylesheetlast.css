@@ -8,6 +8,11 @@
   text-decoration: none;
   font-size: 14px;
 }
+
+body {
+  overflow-x: hidden;
+}
+
 .sidebar{
   position: fixed;
   left: 0;
@@ -660,6 +665,7 @@ table button:nth-child(3) {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  
   border-radius: 8px;
   margin: 20px;
    /* Subtle shadow */
@@ -700,6 +706,7 @@ table button:nth-child(3) {
 .form-container {
    /* Allows horizontal scrolling for smaller screens */
   background-color: #fff;
+  max-width: 800px;
   border-radius: 8px;
   padding: 30px 50px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -987,36 +994,49 @@ form {
 
 
 
-
-
-
 .dashboard-summary {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 30px;
+  display: flex;
+  justify-content: space-between;  /* Distribute space between cards */
+  flex-wrap: wrap;                 /* Ensure cards wrap on smaller screens */
+  gap: 10px;                       /* Add space between the cards */
+  padding: 20px;                   /* Add padding around the cards container */
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100px;
-  background-color: #ffc107;
-  
+  flex: 1;                         /* Allow cards to grow and shrink equally */
+  min-width: 18%;                  /* Ensure eaccard has a minimum width */
+  max-width: 18%;                  /* Set a maximum width to keep them even */
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  color: white;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
 }
 
 .card-body {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-footer {
-  
-  background-color: #41b25c;
-  height: 20px;
-  text-align: center;
-  
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
 }
+
+.card-footer:hover {
+  color: #f1f1f1;
+}
+
+
 
 .body1 {
   display: grid;

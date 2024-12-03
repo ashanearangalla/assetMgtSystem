@@ -1,5 +1,6 @@
 <?php
 // Include the database connection file
+
 include('connection.php');
 
 // Fetch component data from the database
@@ -13,6 +14,7 @@ m.name AS manufacturerName,
 st.type AS `type`,  
 o.name AS officeName, 
 cmp.serial, 
+cmp.remaining, 
 cmp.modelNo, 
 cmp.quantity, 
 w.startDate AS warrantyStartDate, 
@@ -41,7 +43,7 @@ $result = $conn->query($sql);
     <title>Components List</title>
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-    <link rel="stylesheet" href="stylesheetassetnew.css">
+    <link rel="stylesheet" href="stylesheetlast.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
@@ -57,7 +59,10 @@ $result = $conn->query($sql);
     <main class="main-content">
         <div class="main-header">
             <h1>Components List</h1>
-            <a href="addComponent.php"><button class="primary-btn">Create New</button></a>
+            <?php if ($_SESSION["user"]["role"] !== 'Employee') : ?>
+                <a href="addComponent.php"><button class="primary-btn">Create New</button></a>
+            <?php endif; ?>
+            
         </div>
         <!-- Table Container -->
         <div class="table-container">
@@ -76,12 +81,16 @@ $result = $conn->query($sql);
                         <th>Serial</th>
                         <th>Model No</th>
                         <th>Quantity</th>
+                        <th>Remaining</th>
                         <th>Warranty Start</th>
                         <th>Warranty End</th>
                         <th>Purchase Date</th>
                         <th>Purchase Cost</th>
                         <th>Supplier</th>
-                        <th>Action</th>
+                        <th>In/ Out</th>
+                        <?php if ($_SESSION["user"]["role"] !== 'Employee') : ?>
+                            <th>Action</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,11 +111,26 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["serial"] . "</td>";
                             echo "<td>" . $row["modelNo"] . "</td>";
                             echo "<td>" . $row["quantity"] . "</td>";
+                            echo "<td>" . $row["remaining"] . "</td>";
                             echo "<td>" . $row["warrantyStartDate"] . "</td>";
                             echo "<td>" . $row["warrantyEndDate"] . "</td>";
                             echo "<td>" . $row["purchaseDate"] . "</td>";
                             echo "<td>" . $row["purchaseCost"] . "</td>";
                             echo "<td>" . $row["supplierName"] . "</td>";
+                            echo "<td>";
+                            if ($row['type'] === 'Deployed') {
+                                echo "<a href='checkinAsset.php?itemID=" . $row['itemID'] . "' class='btn btn-success'>Checkin</a>";
+                            } elseif ($row['type'] === 'Ready to Deploy') {
+                                if ($row['remaining'] > 0) {
+                                    echo "<a href='checkoutComponent.php?componentID=" . $row['componentID'] . "' class='btn btn-primary'>Checkout</a>";
+                                } else {
+                                    echo "<button class='btn btn-primary' disabled>Checkout</button>";
+                                }
+                            } else {
+                                echo "N/A";
+                            }
+                            echo "</td>";
+                            if ($_SESSION["user"]["role"] !== 'Employee') :
                             echo "<td>
                                 <a href='addComponent.php?componentID=" . $row['componentID'] . "' class='btn btn-primary'>Update</a>
                                <form action='db_context.php' method='post' style='display:inline-block;'>
@@ -117,6 +141,7 @@ $result = $conn->query($sql);
                               Delete</button>
                             </form>
                               </td>";
+                            endif;
                             echo "</tr>";
                         }
                     } else {
@@ -138,12 +163,16 @@ $result = $conn->query($sql);
                         <th>Serial</th>
                         <th>Model No</th>
                         <th>Quantity</th>
+                        <th>Remaining</th>
                         <th>Warranty Start</th>
                         <th>Warranty End</th>
                         <th>Purchase Date</th>
                         <th>Purchase Cost</th>
                         <th>Supplier</th>
-                        <th>Action</th>
+                        <th>In/ Out</th>
+                        <?php if ($_SESSION["user"]["role"] !== 'Employee') : ?>
+                            <th>Action</th>
+                        <?php endif; ?>
                     </tr>
                 </tfoot>
             </table>
