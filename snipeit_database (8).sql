@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2024 at 05:58 PM
+-- Generation Time: Dec 04, 2024 at 06:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,8 +66,8 @@ CREATE TABLE `asset` (
 
 INSERT INTO `asset` (`assetID`, `assetTag`, `serial`, `modelName`, `nextAuditDate`, `itemID`, `warrantyID`) VALUES
 (3, 'AD3456', 'SN12345', 'Dell Inspiron 15', '0000-00-00', 1, 1),
-(25, 'GH677ddxw', 'cwecw', 'Ahs', NULL, 44, 14),
-(26, 'HP7876', 'GYH6789', 'LaserJet 1020', NULL, 60, 17);
+(26, 'HP7876', 'GYH6789', 'LaserJet 1020', NULL, 60, 17),
+(27, 'HG2121', 'FFRFRS', '', NULL, 65, NULL);
 
 -- --------------------------------------------------------
 
@@ -86,29 +86,31 @@ CREATE TABLE `assetassignment` (
   `officeID` int(11) DEFAULT NULL,
   `checkinNotes` text DEFAULT NULL,
   `checkoutNotes` text DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL
+  `quantity` int(11) DEFAULT NULL,
+  `checkedOutDate` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `assetassignment`
 --
 
-INSERT INTO `assetassignment` (`assignmentID`, `assignmentDate`, `returnDate`, `itemID`, `userID`, `expCheckinDate`, `status`, `officeID`, `checkinNotes`, `checkoutNotes`, `quantity`) VALUES
-(6, '2024-11-28', NULL, 44, 2, '2024-12-26', 'Active', 2, NULL, 'No', NULL),
-(7, '2024-11-27', '2024-11-30', 1, NULL, '2024-11-30', 'Completed', 2, 'No', 'No', NULL),
-(8, '2024-11-26', '2024-11-30', 1, 2, '2024-11-30', 'Completed', 3, 'Piliyandala', 'Noo', NULL),
-(9, '2024-11-28', '2024-11-29', 1, 1, '2024-11-30', 'Completed', 2, 'No', 'No', NULL),
-(10, '2024-11-28', NULL, 3, 1, NULL, 'Completed', NULL, NULL, 'No', NULL),
-(11, '2024-11-23', NULL, 3, 1, NULL, 'Active', NULL, NULL, 'No', NULL),
-(12, '2024-11-30', NULL, 50, 2, NULL, 'Active', NULL, NULL, 'nn', NULL),
-(13, '2024-11-28', NULL, 1, 1, NULL, 'Completed', NULL, NULL, 'No', 30),
-(15, '2024-11-28', NULL, 52, 2, NULL, 'Active', NULL, NULL, 'No', 1),
-(17, '2024-11-29', NULL, 7, 2, NULL, 'Completed', NULL, NULL, 'No', 1),
-(18, '2024-11-29', NULL, 7, 1, NULL, 'Active', NULL, NULL, 'No', 1),
-(19, '2024-11-27', NULL, 6, 1, NULL, 'Completed', NULL, NULL, 'No', 32),
-(20, '2024-11-28', NULL, 6, 2, NULL, 'Active', NULL, NULL, 'No', 10),
-(21, '2024-12-20', '2024-12-13', 1, 2, '2025-01-02', 'Completed', 2, '', '', NULL),
-(22, '2024-12-06', NULL, 1, 2, '2024-12-04', 'Active', NULL, NULL, '', NULL);
+INSERT INTO `assetassignment` (`assignmentID`, `assignmentDate`, `returnDate`, `itemID`, `userID`, `expCheckinDate`, `status`, `officeID`, `checkinNotes`, `checkoutNotes`, `quantity`, `checkedOutDate`) VALUES
+(7, '2024-11-27', '2024-11-30', 1, NULL, '2024-11-30', 'Completed', 2, 'No', 'No', NULL, '2024-12-04 21:43:30'),
+(8, '2024-11-26', '2024-11-30', 1, 2, '2024-11-30', 'Completed', 3, 'Piliyandala', 'Noo', NULL, '2024-12-04 21:43:30'),
+(9, '2024-11-28', '2024-11-29', 1, 1, '2024-11-30', 'Completed', 2, 'No', 'No', NULL, '2024-12-04 21:43:30'),
+(10, '2024-11-28', NULL, 3, 1, NULL, 'Completed', NULL, NULL, 'No', NULL, '2024-12-04 21:43:30'),
+(11, '2024-11-23', NULL, 3, 1, NULL, 'Active', NULL, NULL, 'No', NULL, '2024-12-04 21:43:30'),
+(12, '2024-11-30', NULL, 50, 2, NULL, 'Active', NULL, NULL, 'nn', NULL, '2024-12-04 21:43:30'),
+(13, '2024-11-28', NULL, 1, 1, NULL, 'Completed', NULL, NULL, 'No', 30, '2024-12-04 21:43:30'),
+(15, '2024-11-28', NULL, 52, 2, NULL, 'Active', NULL, NULL, 'No', 1, '2024-12-04 21:43:30'),
+(17, '2024-11-29', NULL, 7, 2, NULL, 'Completed', NULL, NULL, 'No', 1, '2024-12-04 21:43:30'),
+(18, '2024-11-29', NULL, 7, 1, NULL, 'Active', NULL, NULL, 'No', 1, '2024-12-04 21:43:30'),
+(19, '2024-11-27', NULL, 6, 1, NULL, 'Completed', NULL, NULL, 'No', 32, '2024-12-04 21:43:30'),
+(20, '2024-11-28', NULL, 6, 2, NULL, 'Active', NULL, NULL, 'No', 10, '2024-12-04 21:43:30'),
+(21, '2024-12-20', '2024-12-13', 1, 2, '2025-01-02', 'Completed', 2, '', '', NULL, '2024-12-04 21:43:30'),
+(22, '2024-12-06', '2024-12-05', 1, 2, '2024-12-04', 'Completed', 3, '', '', NULL, '2024-12-04 21:43:30'),
+(23, '2024-12-05', NULL, 60, 2, '2024-12-06', 'Active', 2, NULL, '', NULL, '2024-12-04 21:44:05'),
+(24, '2024-12-13', NULL, 65, 2, '2024-12-20', 'Active', 2, NULL, '', NULL, '2024-12-04 22:51:23');
 
 -- --------------------------------------------------------
 
@@ -255,12 +257,11 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`itemID`, `name`, `image`, `notes`, `categoryID`, `manufacturerID`, `orderID`, `statusID`, `officeID`) VALUES
-(1, 'Dell Inspiron 15', 'dellins.jpeg', '15-inch laptop', 1, 1, 1, 5, 2),
+(1, 'Dell Inspiron 16', 'dellins.jpeg', '15-inch laptop', 1, 1, 1, 1, 3),
 (3, 'Adobe Photoshop', 'ps.png', 'Image editing Software', 5, NULL, 3, 1, 1),
 (5, 'Acer Predator', 's-l400.jpg', 'Mouse', 6, 3, 5, 1, 1),
 (6, 'A4 75GSM Paper', 'images (2).jpg', 'Priner Paper', 8, 3, 6, 1, 4),
 (7, 'Crucial 4GB DDR3L-1600 SODIMM', 'ram.jpg', '4 GB Ram', 9, 4, 7, 1, 3),
-(44, 'DVGH56', 'dell-vostro.jpg', 'wcnwencew', 2, 4, 19, 5, 2),
 (49, 'Adobe Reader', 'download.jpg', '', 5, 5, NULL, 1, 4),
 (50, 'Windows 7', 'd302d7664552bb4bdad844c335c3ad25.jpg', 'Samitha', 5, 5, 20, 1, 2),
 (52, 'Logitech Prodigy', 'images (1).jpg', 'Blue', 7, 4, 21, 1, 2),
@@ -268,7 +269,8 @@ INSERT INTO `item` (`itemID`, `name`, `image`, `notes`, `categoryID`, `manufactu
 (54, 'HDD WD100', '40449-11779371.jpg', '256 HDD', NULL, NULL, NULL, 1, NULL),
 (56, 'HDD 256', '40449-11779371.jpg', '256 GB', 10, 2, 22, 1, 2),
 (59, 'Laserjet Paper (Ream)', 'L7621238.jpg', '101 Sheets', 8, 3, 23, 1, 2),
-(60, 'HP LaserJet 1020', '20231106104601HP-LASERJET-1008A-PRINTER-1200x900.jpg', 'Printer', 3, 2, 24, 1, 3);
+(60, 'HP LaserJet 1020', '20231106104601HP-LASERJET-1008A-PRINTER-1200x900.jpg', 'Printer', 3, 2, 24, 5, 3),
+(65, 'Dell Vostro', 'dell-vostro.jpg', 'No', 1, 1, NULL, 5, 3);
 
 -- --------------------------------------------------------
 
@@ -318,7 +320,8 @@ CREATE TABLE `maintenance` (
 
 INSERT INTO `maintenance` (`maintenanceID`, `startDate`, `completionDate`, `type`, `description`, `cost`, `itemID`) VALUES
 (1, '2024-03-01', '2024-03-05', 'Repair', 'Replaced faulty hardware', 150.00, 1),
-(4, '2024-12-05', '2024-12-10', 'nnix', 'niaxs', 1000.00, 60);
+(4, '2024-12-05', '2024-12-10', 'nnix', 'niaxs', 1000.00, 60),
+(5, '2024-12-13', '2024-12-27', 'Software', 'Sawd', 1000.00, 1);
 
 -- --------------------------------------------------------
 
@@ -492,7 +495,8 @@ INSERT INTO `user` (`userID`, `fname`, `lname`, `role`, `email`, `password`, `lo
 (2, 'Jane', 'Smitha', 'Employee', 'abc@gmail.com', '$2y$10$yhTAjhZiAYS0TuAMXJu6y.3tOyDush2TitJ/D08Iacxgo..JWkI5K', 1, 'jane_smith.png', 2, 6, 2),
 (5, 'cew', 'cw', 'Admin', 'cwe@gmail.com', '$2y$10$10hgbb/3hNeIPpVzDcj4/eHLcOhM94PPCb/hQXfh8bIdV.XQoiNHa', 0, '', 2, 6, 2),
 (6, 'dxwe', 'wcwe', 'Employee', 's@gmail.com', '$2y$10$a29L1w/uu7ZGSDjPv0AASuij3KkIr0PqW8nfanMMgOIoRxsy0cInm', 0, '', 1, 7, 1),
-(10, 'snipe', '13', 'Admin', 'snipe@gmail.com', '$2y$10$p0nkZzgjyKdOS/1Id3nB7u2wgf.V9jZQQbtxmfPPZoSfXs5HqsOTu', 1, '', 2, 5, 3);
+(10, 'snipe', '13', 'Admin', 'snipeit@gmail.com', '$2y$10$p0nkZzgjyKdOS/1Id3nB7u2wgf.V9jZQQbtxmfPPZoSfXs5HqsOTu', 1, '', 2, 5, 3),
+(11, 'Nimal', 'Perera', 'Employee', 'nimal@gmail.com', '$2y$10$AxmaAOkNlNC3nF.fGdGFYu3YkvrN/qz5Q6kpQoSZ6cPc8IZs9dNhO', 1, '', 1, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -681,13 +685,13 @@ ALTER TABLE `accessory`
 -- AUTO_INCREMENT for table `asset`
 --
 ALTER TABLE `asset`
-  MODIFY `assetID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `assetID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `assetassignment`
 --
 ALTER TABLE `assetassignment`
-  MODIFY `assignmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `assignmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `audit`
@@ -723,7 +727,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `itemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `itemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `license`
@@ -735,7 +739,7 @@ ALTER TABLE `license`
 -- AUTO_INCREMENT for table `maintenance`
 --
 ALTER TABLE `maintenance`
-  MODIFY `maintenanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `maintenanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `manufacturer`
@@ -771,7 +775,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `warranty`

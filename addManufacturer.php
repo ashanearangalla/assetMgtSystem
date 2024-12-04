@@ -93,7 +93,7 @@ if ($isEditMode) {
     <main class="main-content-create">
         <div class="main-header-create">
             <h1><?php echo $isEditMode ? "Edit Manufacturer" : "Add Manufacturer"; ?></h1>
-            <button>Create New</button>
+            
         </div>
 
         <div class="form-container">
@@ -129,7 +129,7 @@ if ($isEditMode) {
 
                     <!-- Form Footer -->
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                        
                         <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateManufacturerButton' : 'addManufacturerButton'; ?>">
                             <?php echo $isEditMode ? "Update Manufacturer" : "Add Manufacturer"; ?>
                         </button>

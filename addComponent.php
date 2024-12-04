@@ -91,7 +91,7 @@ if ($isEditMode) {
     <main class="main-content-create">
         <div class="main-header-create">
             <h1>Add Component</h1>
-            <button>Create New</button>
+            
         </div>
 
         <div class="form-container">
@@ -228,7 +228,7 @@ if ($isEditMode) {
                     <div style="text-align: center; margin-top: 20px;" id="error-box" class="error-box"></div>
                     <!-- Form Footer -->
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                        
                         <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateComponentButton' : 'addComponentButton'; ?>">
                             <?php echo $isEditMode ? "Update Component" : "Add Component"; ?>
                         </button>

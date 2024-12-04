@@ -89,7 +89,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE accessoryID = ?");
     <main class="main-content-create">
         <div class="main-header-create">
             <h1>Manage Accessories</h1>
-            <button>Create New</button>
+            
         </div>
 
         <div class="form-container">
@@ -227,7 +227,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE accessoryID = ?");
                     <div style="text-align: center; margin-top: 20px;" id="error-box" class="error-box"></div>
 
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                        
                         <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateAccessoryButton' : 'addAccessoryButton'; ?>">
                             <?php echo $isEditMode ? "Update Accessory" : "Add Accessory"; ?>
                         </button>

@@ -137,7 +137,7 @@ if ($isEditMode) {
 
                     <!-- Form Footer -->
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                        
                         <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateSupplierButton' : 'addSupplierButton'; ?>">
                             <?php echo $isEditMode ? "Update Supplier" : "Add Supplier"; ?>
                         </button>

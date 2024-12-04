@@ -990,125 +990,181 @@ form {
 
 
 
-
-
-
-
+/* General Dashboard Layout */
 .dashboard-summary {
   display: flex;
-  justify-content: space-between;  /* Distribute space between cards */
-  flex-wrap: wrap;                 /* Ensure cards wrap on smaller screens */
-  gap: 10px;                       /* Add space between the cards */
-  padding: 20px;                   /* Add padding around the cards container */
+  flex-wrap: wrap;
+  justify-content: space-between; /* Even spacing between cards */
+  gap: 20px; /* Space between the cards */
+  padding: 20px;
+  background: linear-gradient(to bottom, #f9f9f9, #eaeaea);
+  border-radius: 10px;
 }
 
+/* Card Styles */
 .card {
-  flex: 1;                         /* Allow cards to grow and shrink equally */
-  min-width: 18%;                  /* Ensure eaccard has a minimum width */
-  max-width: 18%;                  /* Set a maximum width to keep them even */
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  color: white;
+  flex: 1; /* Equal card width */
+  min-width: 18%; /* Minimum width for smaller screens */
+  max-width: 20%; /* Ensure even sizing */
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #333;
   text-align: center;
-  transition: transform 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
   transform: scale(1.05);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .card-body {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  gap: 15px;
+  text-decoration: none;
+}
+
+.card-body h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.card-body h3 {
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.card-body a i {
+  font-size: 2.5rem;
+  color: inherit;
+  color: rgb(255, 255, 255);
+  
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .card-footer {
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 20px;
+  font-size: 1rem;
   font-weight: bold;
-  text-decoration: underline;
-  cursor: pointer;
+  text-transform: uppercase;
+  color: #007bff;
+  text-decoration: none;
 }
 
 .card-footer:hover {
-  color: #f1f1f1;
+  
+  color: #0056b3;
 }
 
-
-
+/* Recent Activity Section */
 .body1 {
   display: grid;
-  margin-top: 30px;
-  grid-template-columns: 2fr 1fr;
-  
-  gap: 30px;
-}
-
-.table-heading-dashboard {
-  font-size: 18px;
-}
-
-.table-header-dashboard {
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  margin-bottom: 20px;
- 
-}
-
-.recent-activity {
-  
-}
-
-.asset-type {
-  background-color: #41b25c;
-}
-
-
-
-.body2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 100px;
+  grid-template-columns: 2fr 1fr; /* Split sections */
   gap: 30px;
   margin-top: 30px;
-}
-
-
-.locations {
-  background-color: #dc3545;
-}
-
-.asset-categories {
-  background-color: #41b25c;
-}
-
-
-.footer {
-  padding: 30px;
   background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.table-container {
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
 
+.table-container h3 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #333;
+  text-align: left;
+}
 
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
 
+.table-container th,
+.table-container td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
 
-table.dataTable thead th {
-  white-space: nowrap;
-  background-color: #000000;
+.table-container th {
+  background-color: #333;
   color: #fff;
+  text-transform: uppercase;
+  font-size: 0.9rem;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  padding: 0;
-  margin: 0;
+
+.table-container td {
+  font-size: 0.9rem;
 }
-.pagination-container {
-  display: flex;
-  justify-content: end;
-  padding-top: 15px;
- 
+
+.btn-view-log {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  
+  
+}
+
+.btn-view-log:hover {
+  background-color: #0056b3;
+}
+
+/* Asset by Status Type */
+.asset-type {
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.asset-type h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.asset-type canvas {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+  color: #666;
+  border-top: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }
 
 

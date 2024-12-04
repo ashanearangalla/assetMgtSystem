@@ -38,7 +38,7 @@ if ($isEditMode) {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        // Populate variables with existing data
+        // Populte variables with existing data
         $fname = $user['fname'];
         $lname = $user['lname'];
         $email = $user['email'];
@@ -157,7 +157,7 @@ if ($isEditMode) {
                     <div style="text-align: center; margin-top: 20px;" id="error-box" class="error-box"></div>
 
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                       
                         <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateUserButton' : 'addUserButton'; ?>">
                             <?php echo $isEditMode ? "Update User" : "Add User"; ?>
                         </button>

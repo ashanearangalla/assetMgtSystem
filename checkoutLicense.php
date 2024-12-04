@@ -58,7 +58,7 @@ $offices = $conn->query("SELECT officeID, name FROM Office");
     <main class="main-content-create">
         <div class="main-header-create">
             <h1>License Checkout</h1>
-            <button>Create New</button>
+           
         </div>
 
         <div class="form-container">
@@ -110,7 +110,7 @@ $offices = $conn->query("SELECT officeID, name FROM Office");
 
                     
 
-                    <!-- Checkout Notes -->
+                    <!-- Checkout Ntes -->
                     <div class="form-element">
                         <label for="checkoutNotes">Checkout Notes:</label>
                         <textarea id="checkoutNotes" name="checkoutNotes" placeholder="Enter any notes"></textarea>
@@ -120,7 +120,7 @@ $offices = $conn->query("SELECT officeID, name FROM Office");
 
                     <!-- Form Footer -->
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                        
                         <button class="primary-button" type="submit" name="addLicenseCheckoutButton">Checkout License</button>
                     </div>
                 </form>

@@ -71,6 +71,13 @@
                 </a>
                 <span class="tooltip">Audit</span>
             </li>
+            <li>
+                <a href="activityLog.php">
+                <i class="fa-solid fa-pen-to-square"></i>
+                    <span class="links_name">Activity Log</span>
+                </a>
+                <span class="tooltip">Activity Log</span>
+            </li>
             <li class="profile">
                 <div class="profile-details">
                     <!-- <img src="profile.jpg" alt="profileImg"> -->

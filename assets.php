@@ -175,7 +175,9 @@ $result = $conn->query($sql);
                         <th>Supplier</th>
                         <th>Status</th>
                         <th>In/ Out</th>
-                        <th>Action</th>
+                        <?php if ($_SESSION["user"]["role"] !== 'Employee') : ?>
+                            <th>Action</th>
+                        <?php endif; ?>
                     </tr>
                 </tfoot>
             </table>

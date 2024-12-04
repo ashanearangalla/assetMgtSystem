@@ -83,7 +83,7 @@ if ($isEditMode) {
                 <div id="error-box" class="error-box"></div>
 
                 <div class="form-footer">
-                    <button class="secondary-button" type="reset">Cancel</button>
+                   
                     <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateAuditButton' : 'addAuditButton'; ?>">
                         <?php echo $isEditMode ? "Update Audit" : "Add Audit"; ?>
                     </button>

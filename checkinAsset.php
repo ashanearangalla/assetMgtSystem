@@ -53,7 +53,7 @@ $offices = $conn->query("SELECT officeID, name FROM Office");
     <main class="main-content-create">
         <div class="main-header-create">
             <h1>Checkin Asset</h1>
-            <button>Create New</button>
+ 
         </div>
 
         <div class="form-container">
@@ -93,7 +93,7 @@ $offices = $conn->query("SELECT officeID, name FROM Office");
                     <div style="text-align: center;" id="error-box" class="error-box"></div>
 
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                        
                         <button class="primary-button" type="submit" name="addCheckinButton">Checkin Asset</button>
                     </div>
                 </form>

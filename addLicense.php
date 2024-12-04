@@ -222,7 +222,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE licenseID = ?");
                     <div style="text-align: center; margin-top: 20px;" id="error-box" class="error-box"></div>
 
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                       
                         <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateLicenseButton' : 'addLicenseButton'; ?>">
                             <?php echo $isEditMode ? "Update License" : "Add License"; ?>
                         </button>

@@ -55,7 +55,7 @@ $users = $conn->query("SELECT userID, fname, lname FROM User");
     <main class="main-content-create">
         <div class="main-header-create">
             <h1>Accessory Checkout</h1>
-            <button>Create New</button>
+           
         </div>
 
         <div class="form-container">
@@ -128,7 +128,7 @@ $users = $conn->query("SELECT userID, fname, lname FROM User");
 
                     <!-- Form Footer -->
                     <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                       
                         <button class="primary-button" type="submit" name="addAccessoryCheckoutButton">Checkout Accessory</button>
                     </div>
                 </form>

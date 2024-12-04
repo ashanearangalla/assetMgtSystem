@@ -90,7 +90,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE consumableID = ?");
 <main class="main-content-create">
     <div class="main-header-create">
         <h1>Add Consumable</h1>
-        <button>Create New</button>
+        
     </div>
 
     <div class="form-container">
@@ -214,7 +214,7 @@ LEFT JOIN office o ON i.officeID = o.officeID WHERE consumableID = ?");
 
                 <!-- Form Footer -->
                 <div class="form-footer">
-                        <button class="secondary-button" type="reset">Cancel</button>
+                       
                         <button class="primary-button" type="submit" name="<?php echo $isEditMode ? 'updateConsumableButton' : 'addConsumableButton'; ?>">
                             <?php echo $isEditMode ? "Update Consumable" : "Add Consumable"; ?>
                         </button>
